@@ -12,6 +12,9 @@ import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
+    @Query("select cliente from Reserva r where r.pacote.valor > :valorPacote")
+    Page<Cliente> buscarPorValorPacote(@Param("valorPacote")Double valor, Pageable pageable);
+
     //Criar a pesquisa de cliente por data de nascimento
     @Query("select c from Cliente c where c.dataNascimento = :data")
     Page<Cliente> buscarPorDataNascimento(@Param("data") LocalDate dataNascimento, Pageable page);
@@ -21,6 +24,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     @Query("from Cliente c where c.endereco.cidade.uf =:estado")
     Page<Cliente> buscarPorEstado(String estado , Pageable page);
+
 
 
 }
